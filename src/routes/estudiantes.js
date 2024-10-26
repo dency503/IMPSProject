@@ -53,17 +53,21 @@ router.get('/actualizar/:idestudiante', async(request, response) => {
 });
 
 // Endpoint para actualizar un estudiante
-router.post('/actualizar/:idestudiante', async(request, response) => {
+router.post('/actualizar/:idestudiante', async (request, response) => {
     const { idestudiante } = request.params;
-    const { nombre } = request.body;
-    const { apellido } = request.body;
-    const { email } = request.body;
-    const { idcarrera } = request.body;
-    const { usuario } = request.body;
-    const resultado = await queries.actualizarEstudiante(idestudiante, nombre, apellido, email, idcarrera, usuario);
-    if(resultado > 0){
-        console.log('Actualizado con exito');
+    const { nombre, apellido, email, idcarrera, usuario } = request.body;
+
+    try {
+        const resultado = await queries.actualizarEstudiante(idestudiante, nombre, apellido, email, idcarrera, usuario);
+        if (resultado > 0) {
+            console.log('Actualizado con éxito');
+        }
+    } catch (error) {
+        console.error(error);
+        response.status(500).send('Error al actualizar estudiante');
+        return;
     }
+
     response.redirect('/estudiantes');
 });
 
