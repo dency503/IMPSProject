@@ -27,6 +27,7 @@ app.use(require('./routes')); // Node automaticamente busca el index.js del modu
 app.use('/estudiantes',require('./routes/estudiantes')); // Configuracion de ruta para estudiantes 
 app.use('/carreras', require('./routes/carreras')); // Configuracion de ruta para carreras 
 app.use('/materias', require('./routes/carreras'));
+app.use('/profesores', require('./routes/profesores'));
 // Archivos publicos (aca se coloca todo el código al cual el navegador puede cacceder) 
 app.use(express.static(path.join(__dirname, 'public'))); 
 // Iniciar el servidor  
