@@ -15,13 +15,13 @@ router.post('/agregar', async(request, response) => {
     const { carrera } = request.body; // Obtén el nombre de la carrera desde el formulario
     if (carrera) {
         const resultado = await queries.agregarCarrera(carrera);
-        if (resultado) {
-            console.log('Carrera agregada con éxito');
-        } else {
-            console.log('Error al agregar la carrera');
-        }
+        if(resultado){ 
+            request.flash('success', 'Carrera agregada con exito'); 
+         } else { 
+            request.flash('error', 'Ocurrio un problema al guardar la carrera'); 
+         } 
     } else {
-        console.log('El nombre de la carrera es requerido');
+        request.flash('error', 'El nombre de la carrera es requerido'); 
     }
     response.redirect('/carreras');
 });
@@ -41,7 +41,7 @@ router.post('/actualizar/:idcarrera', async(request, response) => {
     const { carrera } = request.body;
     const resultado = await queries.actualizarCarrera(idcarrera, carrera);
     if(resultado > 0){
-        console.log('Actualizado con exito');
+        request.flash('success', 'Actualizado con exito');
     }
     response.redirect('/carreras');
 });
@@ -50,7 +50,7 @@ router.get('/eliminar/:idcarrera', async(request, response) => {
     const { idcarrera } = request.params;  // Desestructuramos el objeto que nos mandan en la peticion y extraemos el idcarrera
     const resultado = await queries.eliminarCarrera(idcarrera);
     if(resultado > 0){
-        console.log('Eliminado con éxito');
+         request.flash('success', 'Eliminado con éxito');
     }
     response.redirect('/carreras');
 });

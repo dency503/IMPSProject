@@ -28,12 +28,12 @@ router.post('/agregar', async(request, response) => {
     if (nombre && apellido && email && idcarrera && usuario ) {
         const resultado = await queries.agregarEstudiante(nombre, apellido, email, idcarrera, usuario);
         if (resultado) {
-            console.log('Estudiante agregado con éxito');
+             request.flash('success', 'Estudiante agregado con éxito');
         } else {
-            console.log('Error al agregar el estudiante');
+             request.flash('error', 'Error al agregar el estudiante');
         }
     } else {
-        console.log('Todos los apartados son requeridos');
+         request.flash('error', 'Todos los apartados son requeridos');
     }
 
     response.redirect('/estudiantes');
@@ -60,7 +60,7 @@ router.post('/actualizar/:idestudiante', async (request, response) => {
     try {
         const resultado = await queries.actualizarEstudiante(idestudiante, nombre, apellido, email, idcarrera, usuario);
         if (resultado > 0) {
-            console.log('Actualizado con éxito');
+             request.flash('success', 'Actualizado con éxito');
         }
     } catch (error) {
         console.error(error);
@@ -76,7 +76,7 @@ router.get('/eliminar/:idestudiante', async(request, response) => {
     const { idestudiante } = request.params; // Desestructuramos el objeto que nos mandan en la peticion y extraemos el idestudiante
     const resultado = await queries.eliminarEstudiante(idestudiante);
     if(resultado > 0){
-        console.log('Eliminado con éxito');
+         request.flash('success', 'Eliminado con éxito');
     }
     response.redirect('/estudiantes');
 });

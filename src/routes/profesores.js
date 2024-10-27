@@ -21,9 +21,9 @@ router.post('/agregar', async(request, response) => {
     if (nombre && apellido && fecha_nacimiento && profesion && genero && email ) {
         const resultado = await queries.agregarProfesor(nombre, apellido, fecha_nacimiento, profesion, genero, email);
         if (resultado) {
-            console.log('Profesor agregado con éxito');
+           request.flash('success', 'Profesor agregado con éxito');
         } else {
-            console.log('Error al agregar el profesor');
+            request.flash('error', 'Error al agregar el profesor');
         }
     } else {
         console.log('Todos los apartados son requeridos');
@@ -51,7 +51,7 @@ router.post('/actualizar/:idprofesor', async(request, response) => {
     const { email } = request.body;
     const resultado = await queries.actualizarProfesor(idprofesor, nombre, apellido, fecha_nacimiento, profesion, genero, email);
     if(resultado > 0){
-        console.log('Actualizado con exito');
+         request.flash('success', 'Actualizado con exito');
     }
     response.redirect('/profesores');
 });
@@ -60,7 +60,7 @@ router.get('/eliminar/:idprofesor', async(request, response) => {
     const { idprofesor } = request.params; // Desestructuramos el objeto que nos mandan en la peticion y extraemos el idprofesor
     const resultado = await queries.eliminarProfesor(idprofesor);
     if(resultado > 0){
-        console.log('Eliminado con éxito');
+        request.flash('success', 'Eliminado con éxito');
     }
     response.redirect('/profesores');
 });
